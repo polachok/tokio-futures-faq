@@ -1,12 +1,12 @@
 Что такое future?
 -----------------
-Future это тип, для которого имплементирован трейт
+Future это тип (структура, enum), для которого имплементирован трейт
 [Future](https://docs.rs/futures/0.1.24/futures/future/trait.Future.html)
 
 Кто вызывает poll()?
 --------------------
 [Executor](https://docs.rs/futures/0.1.24/futures/future/trait.Executor.html). 
-Это может быть ивент-луп, тред пул или что-то еще.
+Это может быть [ивент-луп](https://en.wikipedia.org/wiki/Event_loop), тред пул или что-то еще.
 
 Какие фьючи выбрать, есть 0.1 и 0.3?
 ------------------------------------
