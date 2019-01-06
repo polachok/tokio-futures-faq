@@ -1,10 +1,10 @@
 Что такое future (фьюча)?
 -----------------
-future - это тип (структура, enum), для которого реализован типаж [Future](https://docs.rs/futures/*/futures/future/trait.Future.html).
+future - это тип (структура, enum), для которого реализован типаж [Future](https://docs.rs/futures/0.1/futures/future/trait.Future.html).
 
 Что вызывает `poll()`?
 --------------------
-Типаж [Executor](https://docs.rs/futures/*/futures/future/trait.Executor.html). 
+Типаж [Executor](https://docs.rs/futures/0.1/futures/future/trait.Executor.html). 
 Это может быть [event loop](https://ru.wikipedia.org/wiki/Цикл_событий), пул потоков или что-то еще.
 
 Какие futures выбрать, есть 0.1 и 0.3?
@@ -24,17 +24,17 @@ future - это тип (структура, enum), для которого ре�
 
 Как работать с файлами и не заблокировать поток?
 ------------------------------------------
-Использовать ящик [tokio_fs](https://docs.rs/tokio-fs/*/tokio_fs)
+Использовать ящик [tokio_fs](https://docs.rs/tokio-fs)
 
 Как работать со стандартным вводом/выводом?
 ------------------------------------------
-[`tokio::io::stdin()`](https://docs.rs/tokio/*/tokio/io/fn.stdin.html)
+[`tokio::io::stdin()`](https://docs.rs/tokio/0.1/tokio/io/fn.stdin.html)
 
-[`tokio::io::stdout()`](https://docs.rs/tokio/*/tokio/io/fn.stdout.html)
+[`tokio::io::stdout()`](https://docs.rs/tokio/0.1/tokio/io/fn.stdout.html)
 
 У меня синхронный драйвер БД, что делать?
 -----------------------------------------
-Использовать [`tokio_threadpool::blocking()`](https://docs.rs/tokio-threadpool/*/tokio_threadpool/fn.blocking.html).
+Использовать [`tokio_threadpool::blocking()`](https://docs.rs/tokio-threadpool/0.1/tokio_threadpool/fn.blocking.html).
 
 Что такое таск (task)?
 -----------------------------
@@ -53,7 +53,7 @@ task - это фьюча верхнего уровня. Т.е. то, что пе
 Я написал свою фьючу, но ее функция `poll()` вызывается только один раз?!
 -------------------------------------------------------
 Перед возвратом `Ok(Async::NotReady)` нужно сообщить executor'у, когда следует вызвать `poll()` снова.
-Самый простой способ это сделать - [`task::current().notify()`](https://docs.rs/tokio/*/tokio/prelude/task/struct.Task.html). 
+Самый простой способ это сделать - [`task::current().notify()`](https://docs.rs/tokio/0.1/tokio/prelude/task/struct.Task.html). 
 
 [Пример](https://play.rust-lang.org/?gist=bedc20e415f70975b4f2bb7439dff3ae&version=stable&mode=debug&edition=2015)
 
