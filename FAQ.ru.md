@@ -1,60 +1,62 @@
-Что такое future?
+Что такое future (фьюча)?
 -----------------
-Future это тип (структура, enum), для которого имплементирован трейт
-[Future](https://docs.rs/futures/0.1.24/futures/future/trait.Future.html)
+Future — это тип (структура, enum), для которого реализован типаж [Future](https://docs.rs/futures/0.1/futures/future/trait.Future.html).
 
-Кто вызывает poll()?
+Что вызывает `poll()`?
 --------------------
-[Executor](https://docs.rs/futures/0.1.24/futures/future/trait.Executor.html). 
-Это может быть [ивент-луп](https://en.wikipedia.org/wiki/Event_loop), тред пул или что-то еще.
+Объект, реализующий типаж [Executor](https://docs.rs/futures/0.1/futures/future/trait.Executor.html). 
+Это может быть [event loop](https://ru.wikipedia.org/wiki/Цикл_событий), пул потоков или что-то еще.
 
-Какие фьючи выбрать, есть 0.1 и 0.3?
+Какие futures выбрать, есть 0.1 и 0.3?
 ------------------------------------
-0.3 экспериментальная версия, сейчас все используют 0.1. Принципиальных различий между ними нет.
+0.3 — это экспериментальная версия, сейчас все используют 0.1. Принципиальных различий между ними нет.
 
-Устал писать and_then(..).and_then(..), когда уже будет async/await?
+Устал писать `and_then(...).and_then(...)`, когда уже будет async/await?
 --------------------------------------------------------------------
 Уже есть в nightly для futures 0.3. Но tokio пока использует futures 0.1. 
-Есть [экспериментальная поддержка](https://tokio.rs/blog/2018-08-async-await/)
+Есть [экспериментальная поддержка](https://tokio.rs/blog/2018-08-async-await/).
 
 Что почитать по фьючам и tokio?
 -------------------------------
-Краткое введение: https://tokio.rs/
-Немного про то как работает Executor: http://rust-lang-nursery.github.io/futures-rs/blog/2018/08/17/toykio.html
-... 
+Краткое введение: [tokio.rs](https://tokio.rs)
 
-Как работать с файлами и не блокироваться?
+Немного про то, как работает Executor: [toykio](http://rust-lang-nursery.github.io/futures-rs/blog/2018/08/17/toykio.html)
+
+Как работать с файлами и не заблокировать поток?
 ------------------------------------------
-https://docs.rs/tokio-fs/0.1.3/tokio_fs/
+Использовать крейт [tokio_fs](https://docs.rs/tokio-fs)
 
 Как работать со стандартным вводом/выводом?
 ------------------------------------------
-https://docs.rs/tokio/0.1.8/tokio/io/fn.stdin.html
-https://docs.rs/tokio/0.1.8/tokio/io/fn.stdout.html
+[`tokio::io::stdin()`](https://docs.rs/tokio/0.1/tokio/io/fn.stdin.html)
 
-У меня синхронный драйвер бд, что делать?
+[`tokio::io::stdout()`](https://docs.rs/tokio/0.1/tokio/io/fn.stdout.html)
+
+У меня синхронный драйвер БД, что делать?
 -----------------------------------------
-Использовать [blocking](https://docs.rs/tokio-threadpool/0.1/tokio_threadpool/fn.blocking.html).
+Использовать [`tokio_threadpool::blocking()`](https://docs.rs/tokio-threadpool/0.1/tokio_threadpool/fn.blocking.html).
 
-Что такое таск (task)?
+Что такое task (таск)?
 -----------------------------
-Task это фьюча верхнего уровня. Т.е. то что передается в tokio::run(..) или tokio::spawn(..).
-Каждый spawn() создает новый таск. Таск подобен треду операционной системы, но является легковесным.
+Task — это фьюча верхнего уровня. Т.е. то, что передается в `tokio::run()` или `tokio::spawn()`.
+Каждый вызов `spawn()` создает новый таск. Таск подобен потоку операционной системы, но является легковесным.
 
 Как tokio работает с тасками?
 -----------------------------
-Дефолтный рантайм tokio запускает тред пул. Таски разбирают треды из пула.
+Стандартный tokio runtime запускает пул потоков. Таски разбирают потоки из пула.
 
-Сделал wait() на фьюче и все зависло..?
+Сделал `wait()` на фьюче и все зависло..?
 ---------------------------------------
-Все верно, так и должно быть! Вы заблокировали текущий тред и теперь ивент луп не может продолжить работу.
-Безопасно вызывать .wait() можно только на фьючах отправленных в тред пул.
+Все верно, так и должно быть! Вы заблокировали текущий поток и теперь event loop не может продолжить работу.
+Безопасно вызывать `wait()` можно только на фьючах, отправленных в пул потоков.
 
-Я написал свою фьючу, но она поллится только один раз?!
+Я написал свою фьючу, но ее функция `poll()` вызывается только один раз?!
 -------------------------------------------------------
-Перед возвратом Ok(Async::NotReady) нужно сообщить executor'у, когда следует вызвать poll() снова.
-Самый простой способ это сделать - [task::current().notify()](https://docs.rs/tokio/0.1.8/tokio/prelude/task/struct.Task.html). [Пример](https://play.rust-lang.org/?gist=bedc20e415f70975b4f2bb7439dff3ae&version=stable&mode=debug&edition=2015)
+Перед возвратом `Ok(Async::NotReady)` нужно сообщить executor'у, когда следует вызвать `poll()` снова.
+Самый простой способ это сделать — [`task::current().notify()`](https://docs.rs/tokio/0.1/tokio/prelude/task/struct.Task.html). 
+
+[Пример](https://play.rust-lang.org/?gist=bedc20e415f70975b4f2bb7439dff3ae&version=stable&mode=debug&edition=2015)
 
 У меня остались еще вопросы, где их можно задать?
 -------------------------------------------------
-https://t.me/tokio_rust
+Канал в [Telegram](https://t.me/tokio_rust)
