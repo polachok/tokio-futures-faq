@@ -1,7 +1,7 @@
 [package]
 name = "tokio-futures-faq"
 version = "0.1.0"
-authors = ["mexus <gilaldpellaeon@gmail.com>"]
+authors = ["The Russian Rust Community on Telegram"]
 edition = "2018"
 publish = false
 description = "Collection of examples for tokio&futures russian FAQ"
