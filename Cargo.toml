@@ -9,4 +9,5 @@ description = "Collection of examples for tokio&futures russian FAQ"
 [dev-dependencies]
 bytes = "0.4.11"
 futures = "0.1.25"
+rand = "0.6.3"
 tokio = "0.1.13"
