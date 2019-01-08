@@ -75,6 +75,7 @@ mod server {
     pub fn echo(listener: TcpListener) -> impl Future<Item = (), Error = ()> {
         listener
             .incoming()
+            .map_err(|err| eprintln!("[server] I/O error while processing connections: {}", err))
             .for_each(|connection| {
                 // `connection` -- это `TcpStream`, он имплементит как `AsyncRead`, так и
                 // `AsyncWrite`. Это именно то, что нужно для использования `Framed`.
@@ -91,10 +92,8 @@ mod server {
                         eprintln!("[server] I/O error while interracting with client: {}", err)
                     });
                 // Запускаем обработку клиента (соединения) в отдельной таске.
-                tokio::spawn(processing);
-                Ok(())
+                tokio::spawn(processing)
             })
-            .map_err(|err| eprintln!("[server] I/O error while processing connections: {}", err))
     }
 }
 
